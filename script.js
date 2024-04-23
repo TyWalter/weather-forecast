@@ -2,11 +2,13 @@ const submit = document.querySelector('form');
 const static = document.querySelector('article')
 let inputClear = document.getElementById('city');
 
+// Getting localstorage and sending it to coversion function
 function paramSet(){
   const city = localStorage.getItem('CitySearch');
   convertCity(city);
 };
 
+// makes a fetch call to get details of a city
 function convertCity(city){
   const location = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=57818e654972af47025ad7f7958acbbe`
   fetch(location)
@@ -22,6 +24,7 @@ function convertCity(city){
   })
 };
 
+// takes a city and converts it into lat and long and clears typed input
 function getGeoLoc(data){
   for (let i=0; i<data.length; i++){
     const geoLoc = data[i];
@@ -33,6 +36,7 @@ function getGeoLoc(data){
   inputClear.value = '';
 };
 
+// makes a fetch call for the current weather of a city
 function grabApiCurrent(lat, lon){
   const current = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=57818e654972af47025ad7f7958acbbe`
   fetch(current)
@@ -48,21 +52,7 @@ function grabApiCurrent(lat, lon){
   })
 };
 
-function grabApiWeek(lat, lon){
-  const week = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=50&units=imperial&appid=c1dd9688874f70a75ae85555d4ee0cd2`
-  fetch(week)
-  .then(function (resp){
-    return resp.json();
-  })
-  .then(function(weather){
-    getWeatherWeek(weather);
-  })
-  .catch(function(err){
-    console.error(err);
-    console.log('Uh oh, something went wrong');
-  })
-};
-
+// grabs data from current weather fetch
 function getWeatherCurrent(weather){
   const cName = weather.name
   const cDate = weather.dt_txt;
@@ -73,18 +63,7 @@ function getWeatherCurrent(weather){
   printCurrent(cName, cDate, cIcon, cTemp, cWind, cHumidity);
 };
 
-function getWeatherWeek(weather){
-  for(let i=0; i<5; i++){
-    const index = 7+(i*8)
-    const wDate = weather.list[index].dt_txt;
-    const wIcon = weather.list[index].weather[0].icon;
-    const wTemp = weather.list[index].main.temp;
-    const wWind = weather.list[index].wind.speed;
-    const wHumidity = weather.list[index].main.humidity;
-    printWeek(wDate, wIcon, wTemp, wWind, wHumidity, i);
-  };
-};
-
+// takes current data and inputs it on the page
 function printCurrent(name, date, icon, temp, wind, humidity){
   const day = dayjs(date);
   const nameCurrent = document.querySelector('h3');
@@ -101,8 +80,38 @@ function printCurrent(name, date, icon, temp, wind, humidity){
   humidityCurrent.textContent = `Humidity: ${humidity} %`;
 
   nameCurrent.appendChild(iconCurrent);
-}
+};
 
+// makes a fetch call for the 5 day forecasted weather of a city
+function grabApiWeek(lat, lon){
+  const week = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=50&units=imperial&appid=c1dd9688874f70a75ae85555d4ee0cd2`
+  fetch(week)
+  .then(function (resp){
+    return resp.json();
+  })
+  .then(function(weather){
+    getWeatherWeek(weather);
+  })
+  .catch(function(err){
+    console.error(err);
+    console.log('Uh oh, something went wrong');
+  })
+};
+
+// grabs data from 5 day forecasted weather fetch and iterated through the data to grab a time from a different day
+function getWeatherWeek(weather){
+  for(let i=0; i<5; i++){
+    const index = 7+(i*8)
+    const wDate = weather.list[index].dt_txt;
+    const wIcon = weather.list[index].weather[0].icon;
+    const wTemp = weather.list[index].main.temp;
+    const wWind = weather.list[index].wind.speed;
+    const wHumidity = weather.list[index].main.humidity;
+    printWeek(wDate, wIcon, wTemp, wWind, wHumidity, i);
+  };
+};
+
+// takes 5 day forecasted data and inputs it on the page
 function printWeek(date, icon, temp, wind, humidity, i){
   const day = dayjs(date);
   const forecastWeather = document.querySelector(`.data-5day-weather${i}`);
@@ -129,6 +138,7 @@ function printWeek(date, icon, temp, wind, humidity, i){
   weekForecast.appendChild(card);
 };
 
+// sets input field localstorage and runs the rest of the page
 function saveToStorage(e){
   e.preventDefault();
   const input = document.querySelector('input').value;
@@ -141,6 +151,7 @@ function saveToStorage(e){
   }
 };
 
+// static cities that are clicked will run become the search
 function openCity(e){
   e.preventDefault();
   if(e.target.classList.contains('atlanta')){
@@ -163,7 +174,9 @@ function openCity(e){
   paramSet();
 };
 
+// loads the current localstorage to display info on refresh/restart
 paramSet();
 
+// event listeners for submit button and for static cities
 static.addEventListener('click', openCity)
 submit.addEventListener('submit', saveToStorage);
