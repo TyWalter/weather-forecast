@@ -1,4 +1,5 @@
-const button = document.querySelector('form');
+const submit = document.querySelector('form');
+const static = document.querySelector('article')
 let inputClear = document.getElementById('city');
 
 function paramSet(){
@@ -73,7 +74,6 @@ function getWeatherCurrent(weather){
 };
 
 function getWeatherWeek(weather){
-  console.log(weather)
   for(let i=0; i<5; i++){
     const index = 7+(i*8)
     const wDate = weather.list[index].dt_txt;
@@ -141,6 +141,29 @@ function saveToStorage(e){
   }
 };
 
-// paramSet();
+function openCity(e){
+  e.preventDefault();
+  if(e.target.classList.contains('atlanta')){
+    localStorage.setItem('CitySearch', 'atlanta');
+  } else if(e.target.classList.contains('denver')){
+    localStorage.setItem('CitySearch', 'denver');
+  } else if(e.target.classList.contains('seattle')){
+    localStorage.setItem('CitySearch', 'seattle');
+  } else if(e.target.classList.contains('san-francisco')){
+    localStorage.setItem('CitySearch', 'san francisco');
+  } else if(e.target.classList.contains('orlando')){
+    localStorage.setItem('CitySearch', 'orlando');
+  } else if(e.target.classList.contains('new-york')){
+    localStorage.setItem('CitySearch', 'denver');
+  } else if(e.target.classList.contains('chicago')){
+    localStorage.setItem('CitySearch', 'chicago');
+  } else if(e.target.classList.contains('austin')){
+    localStorage.setItem('CitySearch', 'austin');
+  }
+  paramSet();
+};
 
-button.addEventListener('submit', saveToStorage);
+paramSet();
+
+static.addEventListener('click', openCity)
+submit.addEventListener('submit', saveToStorage);
