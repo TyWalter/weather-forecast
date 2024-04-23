@@ -154,7 +154,7 @@ function openCity(e){
   } else if(e.target.classList.contains('orlando')){
     localStorage.setItem('CitySearch', 'orlando');
   } else if(e.target.classList.contains('new-york')){
-    localStorage.setItem('CitySearch', 'denver');
+    localStorage.setItem('CitySearch', 'new york');
   } else if(e.target.classList.contains('chicago')){
     localStorage.setItem('CitySearch', 'chicago');
   } else if(e.target.classList.contains('austin')){
