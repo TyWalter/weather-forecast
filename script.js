@@ -8,7 +8,7 @@ function paramSet(){
 };
 
 function convertCity(city){
-  const location = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=57818e654972af47025ad7f7958acbbe`
+  const location = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=57818e654972af47025ad7f7958acbbe`
   fetch(location)
   .then(function (resp){
     return resp.json();
@@ -94,7 +94,7 @@ function printCurrent(name, date, icon, temp, wind, humidity){
   const windCurrent = document.querySelector('.wind');
   const humidityCurrent = document.querySelector('.humidity');
 
-  iconCurrent.setAttribute('src', `http://openweathermap.org/img/wn/${icon}.png`);
+  iconCurrent.setAttribute('src', `https://openweathermap.org/img/wn/${icon}.png`);
   nameCurrent.textContent = `${name} ${dateCurrent}`;
   tempCurrent.textContent = `Temp: ${temp}\u00B0F`;
   windCurrent.textContent = `Wind: ${wind} MPH`;
@@ -114,7 +114,7 @@ function printWeek(date, icon, temp, wind, humidity, i){
   const windSpeed = document.querySelector(`.wind${i}`);
   const humidityPercentage = document.querySelector(`.humidity${i}`);
 
-  iconForecast.setAttribute('src', `http://openweathermap.org/img/wn/${icon}.png`);
+  iconForecast.setAttribute('src', `https://openweathermap.org/img/wn/${icon}.png`);
   forecastDate.textContent = day.format('MM/DD/YYYY');
   temperature.textContent = `Temp: ${temp}\u00B0F`;
   windSpeed.textContent = `Wind: ${wind} MPH`;
