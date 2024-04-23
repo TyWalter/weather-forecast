@@ -96,7 +96,7 @@ h5 {
   height: 250px;
 }
 
-.data-5day-weather {
+.data-5day-weather0, .data-5day-weather1, .data-5day-weather2, .data-5day-weather3, .data-5day-weather4 {
   font-size: 20px;
   margin-top: 50px;
 }
