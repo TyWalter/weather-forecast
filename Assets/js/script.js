@@ -5,7 +5,9 @@ let inputClear = document.getElementById('city');
 // Getting localstorage and sending it to coversion function
 function paramSet(){
   const city = localStorage.getItem('CitySearch');
-  convertCity(city);
+  if(city){
+    convertCity(city);
+  }
 };
 
 // makes a fetch call to get details of a city
@@ -84,7 +86,7 @@ function printCurrent(name, date, icon, temp, wind, humidity){
 
 // makes a fetch call for the 5 day forecasted weather of a city
 function grabApiWeek(lat, lon){
-  const week = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=50&units=imperial&appid=c1dd9688874f70a75ae85555d4ee0cd2`
+  const week = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=40&units=imperial&appid=c1dd9688874f70a75ae85555d4ee0cd2`
   fetch(week)
   .then(function (resp){
     return resp.json();
