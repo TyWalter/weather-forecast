@@ -73,11 +73,12 @@ function getWeatherCurrent(weather){
 
 function getWeatherWeek(weather){
   for(let i=0; i<5; i++){
-    const wDate = weather.list[i].dt_txt;
+    let wDate = weather.list[i].dt_txt;
     const wIcon = weather.list[i].weather.icon;
     const wTemp = weather.list[i].main.temp;
     const wWind = weather.list[i].wind.speed;
     const wHumidity = weather.list[i].main.humidity;
+    
     printWeek(wDate, wIcon, wTemp, wWind, wHumidity, i);
   };
 };
@@ -110,6 +111,8 @@ function getWeatherWeek(weather){
 // }
 
 function printWeek(date, icon, temp, wind, humidity, i){
+  const forecastWeather = document.querySelector(`.data-5day-weather${i}`)
+  const card = document.querySelector(`.card${i}`);
   const weekForecast = document.querySelector('.data-5day-forecast')
   const forecastDate = document.querySelector('h5')
   const iconForecast = document.querySelector('.data-5day-icon')
@@ -122,9 +125,8 @@ function printWeek(date, icon, temp, wind, humidity, i){
   temperature.textContent = temp;
   windSpeed.textContent = wind;
   humidityPercentage.textContent = humidity;
+  console.log(temperature)
   
-  const forecastWeather = document.querySelector(`.data-5day-weather${i}`)
-  const card = document.querySelector(`.card${i}`);
 
   forecastWeather.appendChild(temperature);
   forecastWeather.appendChild(windSpeed);
@@ -133,7 +135,6 @@ function printWeek(date, icon, temp, wind, humidity, i){
   card.appendChild(iconForecast);
   card.appendChild(forecastWeather);
   weekForecast.appendChild(card);
-  console.log(card)
 };
 
   // const cityName = document.createElement('h3');
