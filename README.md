@@ -7,7 +7,7 @@ This website use the open weather map api to retrieve data and display it in the
 [Here is the link](https://tywalter.github.io/weather-forecast/) to the deployed website.
 
 ## Visuals 
-* ![Here is a screenshot](./assets/images/screenshot.png) of the deployed website
+* ![Here is a screenshot](./Assets/images/screenshot.png) of the deployed website
 
 ## Usage
 This is intended to gather current weather and a 5 day forecast and return the results for the city you select or type in. This is also for grading purposes.
