@@ -1,14 +1,6 @@
 const button = document.querySelector('form');
 let inputClear = document.getElementById('city');
 
-// function clear(){
-//   document.getElementById('zero').innerHTML = "";
-//   document.getElementById('one').innerHTML = "";
-//   document.getElementById('two').innerHTML = "";
-//   document.getElementById('three').innerHTML = "";
-//   document.getElementById('four').innerHTML = "";
-// }
-
 function paramSet(){
   const city = localStorage.getItem('CitySearch');
   convertCity(city);
@@ -56,7 +48,7 @@ function grabApiCurrent(lat, lon){
 };
 
 function grabApiWeek(lat, lon){
-  const week = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=33&units=imperial&appid=c1dd9688874f70a75ae85555d4ee0cd2`
+  const week = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=50&units=imperial&appid=c1dd9688874f70a75ae85555d4ee0cd2`
   fetch(week)
   .then(function (resp){
     return resp.json();
@@ -71,35 +63,44 @@ function grabApiWeek(lat, lon){
 };
 
 function getWeatherCurrent(weather){
-  const cDate = weather.dt;
+  const cName = weather.name
+  const cDate = weather.dt_txt;
   const cIcon = weather.weather[0].icon;
   const cTemp = weather.main.temp;
   const cWind = weather.wind.speed;
   const cHumidity = weather.main.humidity;
-  printCurrent(cDate, cIcon, cTemp, cWind, cHumidity);
+  printCurrent(cName, cDate, cIcon, cTemp, cWind, cHumidity);
 };
 
 function getWeatherWeek(weather){
+  console.log(weather)
   for(let i=0; i<5; i++){
-    const wDate = weather.list[i*8].dt_txt;
-    const wIcon = weather.list[i*8].weather[0].icon;
-    const wTemp = weather.list[i*8].main.temp;
-    const wWind = weather.list[i*8].wind.speed;
-    const wHumidity = weather.list[i*8].main.humidity;
+    const index = 7+(i*8)
+    const wDate = weather.list[index].dt_txt;
+    const wIcon = weather.list[index].weather[0].icon;
+    const wTemp = weather.list[index].main.temp;
+    const wWind = weather.list[index].wind.speed;
+    const wHumidity = weather.list[index].main.humidity;
     printWeek(wDate, wIcon, wTemp, wWind, wHumidity, i);
   };
 };
 
-function printCurrent(date, icon, temp, wind, humidity){
+function printCurrent(name, date, icon, temp, wind, humidity){
   const day = dayjs(date);
-  const dateCurrent = document.querySelector('h3');
-  const iconCurrent = document.querySelector('span');
+  const nameCurrent = document.querySelector('h3');
+  const dateCurrent = day.format('MM/DD/YYYY');
+  const iconCurrent = document.querySelector('img');
   const tempCurrent = document.querySelector('.temp');
   const windCurrent = document.querySelector('.wind');
-  const humidityCurrent = document.querySelector('humidity');
+  const humidityCurrent = document.querySelector('.humidity');
 
-  tempCurrent.setAttribute
+  iconCurrent.setAttribute('src', `http://openweathermap.org/img/wn/${icon}.png`);
+  nameCurrent.textContent = `${name} ${dateCurrent}`;
+  tempCurrent.textContent = `Temp: ${temp}\u00B0F`;
+  windCurrent.textContent = `Wind: ${wind} MPH`;
+  humidityCurrent.textContent = `Humidity: ${humidity} %`;
 
+  nameCurrent.appendChild(iconCurrent);
 }
 
 function printWeek(date, icon, temp, wind, humidity, i){
