@@ -73,7 +73,7 @@ function getWeatherCurrent(weather){
 
 function getWeatherWeek(weather){
   for(let i=0; i<5; i++){
-    const wDate = weather.list[i].main.temp;
+    const wDate = weather.list[i].dt_txt;
     const wIcon = weather.list[i].dt_txt;
     const wTemp = weather.list[i].main.temp;
     const wWind = weather.list[i].wind.speed;
@@ -110,46 +110,34 @@ function getWeatherWeek(weather){
 // }
 
 function printWeek(date, icon, temp, wind, humidity){
+  const weekForecast = document.querySelector('.data-5day-forecast')
+  const forecastDate = document.querySelector('h5')
+  const iconForecast = document.querySelector('.data-5day-icon')
+  const forecastWeather = document.querySelector('.data-5day-weather')
+  const temperature = document.querySelector('.temp');
+  const windSpeed = document.querySelector('.wind')
+  const humidityPercentage = document.querySelector('.humidity')
+
+  forecastDate.textContent = date;
+  iconForecast.textContent = icon;
+  temperature.textContent = temp;
+  windSpeed.textContent = wind;
+  humidityPercentage.textContent = humidity;
+
   for(let i=0; i<5; i++){
-    const forecastDate = document.createElement('h5')
-    const icon = document.createElement('div')
-    const forecastWeather = document.createElement('div')
-    const temperature = document.createElement('p');
-    const windSpeed = document.createElement('p')
-    const humidityPercentage = document.createElement('p')
-    forecastDate.setAttribute('class', 'data-5day-date text-center');
-    icon.setAttribute('class', 'data-5day-weather');
-    forecastWeather.setAttribute('class', 'data-5day-icon justify-content-center text-center');
-    temperature.setAttribute('class', 'temp');
-    windSpeed.setAttribute('class', 'wind');
-    humidityPercentage.setAttribute('class', 'humidity');
-    
+    const card = document.querySelector(`.card${i}`);
 
+    forecastWeather.appendChild(temperature);
+    forecastWeather.appendChild(windSpeed);
+    forecastWeather.appendChild(humidityPercentage);
+    card.appendChild(forecastDate);
+    card.appendChild(iconForecast);
+    card.appendChild(forecastWeather);
+    weekForecast.appendChild(card);
+    console.log(card)
+  };
+};
 
-
-
-    const card = document.createElement('div');
-    card.setAttribute('class', `col p-2 mx-3 my-3 ${card[i]}`)
-    card.appendChild(temperature);
-  }
-
-
-  const card = document.createElement('div');
-  card.setAttribute('style', 'line-height: .5rem; padding: 5px; text-shadow: black 0 0 .3rem;')
-  card.appendChild(nameEl) 
-  card.appendChild(addressEl)
-  card.appendChild(postalEl)
-  card.appendChild(phoneEl)
-
-  const breweryLink = document.querySelector(`.card${i}`);
-  if (breweryLink) {
-    breweryLink.prepend(card);
-  }
-
-  const nameEl = document.createElement('h3');
-  nameEl.textContent = drinkCard.name;
-  nameEl.setAttribute('style', 'font-size: 16px; font-weight: bold; text-shadow: black 0 0 .3rem; color: var(--alloy-orange)')
-  
   // const cityName = document.createElement('h3');
   // cityName.textContent = print.name;
   // const cityTime = document.createElement('span');
@@ -174,7 +162,6 @@ function printWeek(date, icon, temp, wind, humidity){
   // if (currentWeather) {
   //   currentWeather.prepend(card);
   // }
-};
 
 function saveToStorage(e){
   e.preventDefault();
